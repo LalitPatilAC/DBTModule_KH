@@ -1,0 +1,211 @@
+Assignments_1:
+
+sql> create database Library_Management_System;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use Library_Management_System;
+Database changed
+mysql> CREATE TABLE Authors (
+    ->     author_id INT PRIMARY KEY AUTO_INCREMENT,
+    ->     author_name VARCHAR(100) NOT NULL,
+    ->     country VARCHAR(50)
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> CREATE TABLE Books (
+    ->     book_id INT PRIMARY KEY AUTO_INCREMENT,
+    ->     title VARCHAR(150) NOT NULL,
+    ->     author_id INT,
+    ->     publisher VARCHAR(100),
+    ->     publication_year INT,
+    ->     available_copies INT DEFAULT 1,
+    ->     FOREIGN KEY (author_id) REFERENCES Authors(author_id)
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> CREATE TABLE Members (
+    ->     member_id INT PRIMARY KEY AUTO_INCREMENT,
+    ->     member_name VARCHAR(100) NOT NULL,
+    ->     email VARCHAR(100) UNIQUE,
+    ->     phone VARCHAR(15)
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> ```sql
+    `> CREATE TABLE Borrow_Records (
+    `>     record_id INT PRIMARY KEY,
+    `>     member_id INT,
+    `>     book_id INT,
+    `>     borrow_date DATE,
+    `>     return_date DATE,
+    `>
+    `>     FOREIGN KEY (member_id) REFERENCES Members(member_id),
+    `>     FOREIGN KEY (book_id) REFERENCES Books(book_id)
+    `> );
+    `> ```
+    ->
+    -> ```sql
+    `> CREATE TABLE Borrow_Records (
+    `>     record_id INT PRIMARY KEY,
+    `>     member_id INT,
+    `>     book_id INT,
+    `>     borrow_date DATE,
+    `>     return_date DATE,
+    `>
+    `>     FOREIGN KEY (member_id) REFERENCES Members(member_id),
+    `>     FOREIGN KEY (book_id) REFERENCES Books(book_id)
+    `> );
+    `> ```
+    -> ^C
+mysql> ```sql
+    `> CREATE TABLE Borrow_Records (
+    `>     record_id INT PRIMARY KEY,
+    `>     member_id INT,
+    `>     book_id INT,
+    `>     borrow_date DATE,
+    `>     return_date DATE,
+    `>
+    `>     FOREIGN KEY (member_id) REFERENCES Members(member_id),
+    `>     FOREIGN KEY (book_id) REFERENCES Books(book_id)
+    `> );
+    `> ```
+    -> ^C
+mysql> CREATE TABLE Borrow_Records ( record_id INT PRIMARY KEY, member_id INT, book_id INT, borrow_date DATE, return_date DATE, FOREIGN KEY (member_id) REFERENCES Members(member_id), FOREIGN KEY (book_id) REFERENCES Books(book_id) );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> ```sql
+    `> ALTER TABLE Books
+    `> ADD genre VARCHAR(50);
+    `> ```
+    -> ^C
+mysql> ALTER TABLE Books ADD genre VARCHAR(50);
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DROP TABLE Borrow_Records;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> INSERT INTO Authors (author_name, country) VALUES ('Chetan Bhagat', 'India'), ('J.K. Rowling', 'United Kingdom'), ('William Shakespeare', 'England');
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO Books (title, author_id, publisher, publication_year, available_copies) VALUES ('Five Point Someone', 1, 'Rupa Publications', 2004, 5), ('Harry Potter', 2, 'Bloomsbury', 1997, 3), ('Romeo and Juliet', 3, 'Penguin Books', 1597, 4), ('Half Girlfriend', 1, 'Rupa Publications', 2014, 6), ('Harry Potter and the Chamber of Secrets', 2, 'Bloomsbury', 1998, 2);
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO Members (member_name, email, phone, address, join_date) VALUES ('Rahul Patil', 'rahul@gmail.com', '9876543210', 'Pune, Maharashtra', '2026-01-10'), ('Priya Sharma', 'priya@gmail.com', '9876543211', 'Mumbai, Maharashtra', '2026-02-15'), ('Amit Deshmukh', 'amit@gmail.com', '9876543212', 'Nashik, Maharashtra', '2026-03-20');
+ERROR 1054 (42S22): Unknown column 'address' in 'field list'
+mysql> INSERT INTO Members (member_name, email, phone) VALUES ('Rahul Patil', 'rahul@gmail.com', '9876543210'), ('Priya Sharma', 'priya@gmail.com', '9876543211'), ('Amit Deshmukh', 'amit@gmail.com', '9876543212');
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> ^C
+mysql> INSERT INTO Borrow_Records (record_id, member_id, book_id, borrow_date, return_date) VALUES (1, 1, 1, '2026-01-15', '2026-01-25'), (2, 2, 2, '2026-02-10', '2026-02-20'), (3, 3, 3, '2026-03-05', NULL), (4, 1, 4, '2026-03-15', '2026-03-25');
+ERROR 1146 (42S02): Table 'library_management_system.borrow_records' doesn't exist
+mysql> CREATE TABLE Borrow_Records ( record_id INT PRIMARY KEY, member_id INT, book_id INT, borrow_date DATE, return_date DATE, FOREIGN KEY (member_id) REFERENCES Members(member_id), FOREIGN KEY (book_id) REFERENCES Books(book_id) );
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> INSERT INTO Borrow_Records (record_id, member_id, book_id, borrow_date, return_date) VALUES (1, 1, 1, '2026-01-15', '2026-01-25'), (2, 2, 2, '2026-02-10', '2026-02-20'), (3, 3, 3, '2026-03-05', NULL), (4, 1, 4, '2026-03-15', '2026-03-25');
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select * from books where publish_year>15;
+ERROR 1054 (42S22): Unknown column 'publish_year' in 'where clause'
+mysql> select * from books where publiscation_year>15;
+ERROR 1054 (42S22): Unknown column 'publiscation_year' in 'where clause'
+mysql> select * from books where publication_year>15;
++---------+-----------------------------------------+-----------+-------------------+------------------+------------------+-------+
+| book_id | title                                   | author_id | publisher         | publication_year | available_copies | genre |
++---------+-----------------------------------------+-----------+-------------------+------------------+------------------+-------+
+|       1 | Five Point Someone                      |         1 | Rupa Publications |             2004 |                5 | NULL  |
+|       2 | Harry Potter                            |         2 | Bloomsbury        |             1997 |                3 | NULL  |
+|       3 | Romeo and Juliet                        |         3 | Penguin Books     |             1597 |                4 | NULL  |
+|       4 | Half Girlfriend                         |         1 | Rupa Publications |             2014 |                6 | NULL  |
+|       5 | Harry Potter and the Chamber of Secrets |         2 | Bloomsbury        |             1998 |                2 | NULL  |
++---------+-----------------------------------------+-----------+-------------------+------------------+------------------+-------+
+5 rows in set (0.01 sec)
+
+mysql> CREATE TABLE Authors ( author_id INT PRIMARY KEY, author_name VARCHAR(100) );
+ERROR 1050 (42S01): Table 'authors' already exists
+mysql> ALTER TABLE Books ADD CONSTRAINT fk_author FOREIGN KEY (author_id) REFERENCES Authors(author_id);
+Query OK, 5 rows affected (0.09 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> SELECT m.* FROM Members m JOIN Borrow_Records br ON m.member_id = br.member_id JOIN Books b ON br.book_id = b.book_id WHERE b.title = 'Database Systems';
+Empty set (0.01 sec)
+
+mysql> UPDATE Books SET available_copies = available_copies - 1 WHERE book_id = 1;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> DELETE FROM Members WHERE member_id = 3;
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`library_management_system`.`borrow_records`, CONSTRAINT `borrow_records_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `members` (`member_id`))
+mysql> SELECT * FROM Borrow_Records
+    -> WHERE member_id = 3;
++-----------+-----------+---------+-------------+-------------+
+| record_id | member_id | book_id | borrow_date | return_date |
++-----------+-----------+---------+-------------+-------------+
+|         3 |         3 |       3 | 2026-03-05  | NULL        |
++-----------+-----------+---------+-------------+-------------+
+1 row in set (0.00 sec)
+
+mysql> DELETE FROM Borrow_Records
+    -> WHERE member_id = 3;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> DELETE FROM Members
+    -> WHERE member_id = 3;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM Members;
++-----------+--------------+-----------------+------------+
+| member_id | member_name  | email           | phone      |
++-----------+--------------+-----------------+------------+
+|         1 | Rahul Patil  | rahul@gmail.com | 9876543210 |
+|         2 | Priya Sharma | priya@gmail.com | 9876543211 |
++-----------+--------------+-----------------+------------+
+2 rows in set (0.00 sec)
+
+mysql> ALTER TABLE Borrow_Records
+    -> DROP FOREIGN KEY borrow_records_ibfk_1;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE Borrow_Records
+    -> ADD CONSTRAINT borrow_records_ibfk_1
+    -> FOREIGN KEY (member_id)
+    -> REFERENCES Members(member_id)
+    -> ON DELETE CASCADE;
+Query OK, 3 rows affected (0.07 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> DELETE FROM Members
+    -> WHERE member_id = 3;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> UPDATE Books SET title = 'Database Systems' WHERE book_id = 1;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE Books
+    -> SET title = 'Database Systems'
+    -> WHERE book_id = 1;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+
+mysql> DELETE FROM Books WHERE publication_year < 2000;
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`library_management_system`.`borrow_records`, CONSTRAINT `borrow_records_ibfk_2` FOREIGN KEY (`book_id`) REFERENCES `books` (`book_id`))
+mysql> SELECT *
+    -> FROM Books b
+    -> WHERE NOT EXISTS (
+    ->     SELECT 1
+    ->     FROM Borrow_Records br
+    ->     WHERE br.book_id = b.book_id
+    -> );
++---------+-----------------------------------------+-----------+---------------+------------------+------------------+-------+
+| book_id | title                                   | author_id | publisher     | publication_year | available_copies | genre |
++---------+-----------------------------------------+-----------+---------------+------------------+------------------+-------+
+|       3 | Romeo and Juliet                        |         3 | Penguin Books |             1597 |                4 | NULL  |
+|       5 | Harry Potter and the Chamber of Secrets |         2 | Bloomsbury    |             1998 |                2 | NULL  |
++---------+-----------------------------------------+-----------+---------------+------------------+------------------+-------+
+2 rows in set (0.01 sec)
